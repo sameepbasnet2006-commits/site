@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galeria | EcoAcesso</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Color Palette & Base Setup */
+        :root {
+            --green: #54af32;
+            --purple: #742782;
+            --light: #f8f9fa;
+            --dark: #2b2b2b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            overflow-x: hidden; 
+        }
+
+        /* Navbar Styling */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 5%;
+            background: rgba(255, 255, 255, 0.95);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            transform: translateY(-100%); 
+            opacity: 0; 
+        }
+
+        .nav-logo {
+            max-height: 45px; 
+            width: auto;
+            display: block;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--green);
+        }
+
+        /* Make the active page link stand out */
+        .nav-links a.active {
+            color: var(--purple);
+            border-bottom: 2px solid var(--purple);
+            padding-bottom: 5px;
+        }
+
+        .btn-contact {
+            text-decoration: none;
+            background-color: var(--green);
+            color: white;
+            padding: 0.6rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        .btn-contact:hover {
+            background-color: var(--purple);
+            transform: translateY(-2px);
+        }
+
+        /* Gallery Page Specific Styling */
+        .gallery-section {
+            padding: 150px 5% 5rem; /* Extra top padding to clear the fixed navbar */
+            min-height: 100vh;
+        }
+
+        .gallery-header {
+            text-align: center;
+            margin-bottom: 4rem;
+            opacity: 0; /* Hidden for GSAP animation */
+        }
+
+        .gallery-header h1 {
+            font-size: 3.5rem;
+            color: var(--dark);
+            margin-bottom: 1rem;
+        }
+
+        .gallery-header h1 span {
+            color: var(--green);
+        }
+
+        .gallery-header p {
+            font-size: 1.1rem;
+            color: #555;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Photo Grid Styling */
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .photo-item {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            opacity: 0; /* Hidden for GSAP animation */
+            transform: translateY(30px); /* Pushed down for GSAP animation */
+            background-color: #ddd; /* Placeholder background */
+            height: 280px;
+        }
+
+        .photo-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Keeps images beautifully cropped without distortion */
+            transition: transform 0.5s ease;
+            display: block;
+        }
+
+        .photo-item:hover img {
+            transform: scale(1.08); /* Smooth zoom effect on hover */
+        }
+
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <a href="index.html" class="logo-link">
+            <img src="logo.png" alt="Logotipo EcoAcesso" class="nav-logo">
+        </a>
+        <ul class="nav-links">
+          <li><a href="index.html">Início</a></li>
+           <li><a href="about.html">Sobre Nós</a></li>
+             <li><a href="service.html">Galeria</a></li>
+        </ul>
+        <a href="contact.html" class="btn-contact">Contactar</a>
+    </nav>
+
+    <section class="gallery-section">
+        <div class="gallery-header">
+       <h1>A Nossa <span style="color: #54af32;">Galeria</span></h1>
+            <p>Transformamos Destinos <span style="color: #54af32;">em Memórias</span>.</p>
+        </div>
+
+        <div class="photo-grid">
+            <div class="photo-item"><img src="11.jpg" alt="Foto da Galeria 1"></div>
+            <div class="photo-item"><img src="1.jpg" alt="Foto da Galeria 2"></div>
+            <div class="photo-item"><img src="7.jpg" alt="Foto da Galeria 3"></div>
+            <div class="photo-item"><img src="3.png" alt="Foto da Galeria 4"></div>
+            <div class="photo-item"><img src="6.jpg" alt="Foto da Galeria 5"></div>
+            <div class="photo-item"><img src="5.jpg" alt="Foto da Galeria 6"></div>
+        </div>
+    </section>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            // Kick off the page animation immediately since there's no preloader
+            startPageAnimation();
+
+            function startPageAnimation() {
+                const pageTl = gsap.timeline();
+
+                // Bring down the navbar
+                pageTl.to(".navbar", {
+                    y: 0,
+                    opacity: 1,
+                    duration: 0.8,
+                    ease: "power3.out"
+                })
+                // Fade in the text header
+                .to(".gallery-header", {
+                    y: 0,
+                    opacity: 1,
+                    duration: 0.8,
+                    ease: "power3.out"
+                }, "-=0.4")
+                // Pop in the photos one by one
+                .to(".photo-item", {
+                    y: 0,
+                    opacity: 1,
+                    duration: 0.6,
+                    stagger: 0.15, /* This creates the domino cascade effect */
+                    ease: "power2.out"
+                }, "-=0.2");
+            }
+        });
+    </script>
+</body>
+</html>
